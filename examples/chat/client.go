@@ -6,8 +6,8 @@ package main
 
 import (
 	"bytes"
+	http "github.com/Noooste/fhttp"
 	"log"
-	"net/http"
 	"time"
 
 	"github.com/gorilla/websocket"

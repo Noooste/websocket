@@ -7,8 +7,8 @@ package websocket
 import (
 	"bufio"
 	"errors"
+	http "github.com/Noooste/fhttp"
 	"io"
-	"net/http"
 	"net/url"
 	"strings"
 	"time"

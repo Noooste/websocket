@@ -249,7 +249,7 @@ var (
 // envOnce looks up an environment variable (optionally by multiple
 // names) once. It mitigates expensive lookups on some platforms
 // (e.g. Windows).
-// (Borrowed from net/http/transport.go)
+// (Borrowed from github.com/Noooste/fhttp/transport.go)
 type proxy_envOnce struct {
 	names []string
 	once  sync.Once

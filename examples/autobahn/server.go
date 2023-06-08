@@ -8,9 +8,9 @@ package main
 import (
 	"errors"
 	"flag"
+	http "github.com/Noooste/fhttp"
 	"io"
 	"log"
-	"net/http"
 	"time"
 	"unicode/utf8"
 

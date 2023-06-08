@@ -6,10 +6,10 @@ package main
 
 import (
 	"flag"
+	http "github.com/Noooste/fhttp"
 	"html/template"
 	"io/ioutil"
 	"log"
-	"net/http"
 	"os"
 	"strconv"
 	"time"

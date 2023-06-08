@@ -7,9 +7,9 @@ package main
 import (
 	"bufio"
 	"flag"
+	http "github.com/Noooste/fhttp"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
 	"time"
