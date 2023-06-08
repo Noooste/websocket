@@ -9,7 +9,7 @@ import (
 	"log"
 	"testing"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 var (

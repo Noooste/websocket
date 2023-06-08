@@ -10,7 +10,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 const (

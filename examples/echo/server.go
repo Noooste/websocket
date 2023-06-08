@@ -12,7 +12,7 @@ import (
 	"html/template"
 	"log"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 var addr = flag.String("addr", "localhost:8080", "http service address")
