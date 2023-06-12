@@ -37,7 +37,7 @@ var errInvalidCompression = errors.New("websocket: invalid compression negotiati
 // etc.
 //
 // Deprecated: Use Dialer instead.
-func NewClient(netConn net.Conn, u *url.URL, requestHeader http.Header, readBufSize, writeBufSize int) (c *Conn, response *http.Response, err error) {
+func NewClient(netConn net.Conn, u *url.URL, requestHeader http.Header, headerOrder []string, readBufSize, writeBufSize int) (c *Conn, response *http.Response, err error) {
 	d := Dialer{
 		ReadBufferSize:  readBufSize,
 		WriteBufferSize: writeBufSize,
@@ -45,7 +45,7 @@ func NewClient(netConn net.Conn, u *url.URL, requestHeader http.Header, readBufS
 			return netConn, nil
 		},
 	}
-	return d.Dial(u.String(), requestHeader)
+	return d.Dial(u.String(), requestHeader, headerOrder)
 }
 
 // A Dialer contains options for connecting to WebSocket server.
@@ -113,8 +113,8 @@ type Dialer struct {
 }
 
 // Dial creates a new client connection by calling DialContext with a background context.
-func (d *Dialer) Dial(urlStr string, requestHeader http.Header) (*Conn, *http.Response, error) {
-	return d.DialContext(context.Background(), urlStr, requestHeader)
+func (d *Dialer) Dial(urlStr string, requestHeader http.Header, headerOrder []string) (*Conn, *http.Response, error) {
+	return d.DialContext(context.Background(), urlStr, requestHeader, headerOrder)
 }
 
 var errMalformedURL = errors.New("malformed ws or wss URL")
@@ -157,7 +157,7 @@ var nilDialer = *DefaultDialer
 // non-nil *http.Response so that callers can handle redirects, authentication,
 // etcetera. The response body may not contain the entire response and does not
 // need to be closed by the application.
-func (d *Dialer) DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*Conn, *http.Response, error) {
+func (d *Dialer) DialContext(ctx context.Context, urlStr string, requestHeader http.Header, headerOrder []string) (*Conn, *http.Response, error) {
 	if d == nil {
 		d = &nilDialer
 	}
@@ -193,8 +193,10 @@ func (d *Dialer) DialContext(ctx context.Context, urlStr string, requestHeader h
 		ProtoMajor: 1,
 		ProtoMinor: 1,
 		Header:     make(http.Header),
-		Host:       u.Host,
+
+		Host: u.Host,
 	}
+
 	req = req.WithContext(ctx)
 
 	// Set the cookies present in the cookie jar of the dialer
@@ -237,6 +239,10 @@ func (d *Dialer) DialContext(ctx context.Context, urlStr string, requestHeader h
 
 	if d.EnableCompression {
 		req.Header["Sec-WebSocket-Extensions"] = []string{"permessage-deflate; server_no_context_takeover; client_no_context_takeover"}
+	}
+
+	if headerOrder != nil {
+		req.Header[http.HeaderOrderKey] = headerOrder
 	}
 
 	if d.HandshakeTimeout != 0 {
