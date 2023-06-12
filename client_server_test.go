@@ -178,7 +178,7 @@ func TestProxyDial(t *testing.T) {
 			origHandler.ServeHTTP(w, r)
 		})
 
-	ws, _, err := cstDialer.Dial(s.URL, nil)
+	ws, _, err := cstDialer.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -218,7 +218,7 @@ func TestProxyAuthorizationDial(t *testing.T) {
 			origHandler.ServeHTTP(w, r)
 		})
 
-	ws, _, err := cstDialer.Dial(s.URL, nil)
+	ws, _, err := cstDialer.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -230,7 +230,7 @@ func TestDial(t *testing.T) {
 	s := newServer(t)
 	defer s.Close()
 
-	ws, _, err := cstDialer.Dial(s.URL, nil)
+	ws, _, err := cstDialer.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -258,7 +258,7 @@ func TestDialCookieJar(t *testing.T) {
 	cookies := []*http.Cookie{{Name: "gorilla", Value: "ws", Path: "/"}}
 	d.Jar.SetCookies(u, cookies)
 
-	ws, _, err := d.Dial(s.URL, nil)
+	ws, _, err := d.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -306,7 +306,7 @@ func TestDialTLS(t *testing.T) {
 
 	d := cstDialer
 	d.TLSClientConfig = &tls.Config{RootCAs: rootCAs(t, s.Server)}
-	ws, _, err := d.Dial(s.URL, nil)
+	ws, _, err := d.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -320,7 +320,7 @@ func TestDialTimeout(t *testing.T) {
 
 	d := cstDialer
 	d.HandshakeTimeout = -1
-	ws, _, err := d.Dial(s.URL, nil)
+	ws, _, err := d.Dial(s.URL, nil, nil)
 	if err == nil {
 		ws.Close()
 		t.Fatalf("Dial: nil")
@@ -379,7 +379,7 @@ func TestHandshakeTimeout(t *testing.T) {
 		c, err := net.Dial(n, a)
 		return &requireDeadlineNetConn{c: c, t: t}, err
 	}
-	ws, _, err := d.Dial(s.URL, nil)
+	ws, _, err := d.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatal("Dial:", err)
 	}
@@ -400,7 +400,7 @@ func TestHandshakeTimeoutInContext(t *testing.T) {
 
 	ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(30*time.Second))
 	defer cancel()
-	ws, _, err := d.DialContext(ctx, s.URL, nil)
+	ws, _, err := d.DialContext(ctx, s.URL, nil, nil)
 	if err != nil {
 		t.Fatal("Dial:", err)
 	}
@@ -411,7 +411,7 @@ func TestDialBadScheme(t *testing.T) {
 	s := newServer(t)
 	defer s.Close()
 
-	ws, _, err := cstDialer.Dial(s.Server.URL, nil)
+	ws, _, err := cstDialer.Dial(s.Server.URL, nil, nil)
 	if err == nil {
 		ws.Close()
 		t.Fatalf("Dial: nil")
@@ -422,7 +422,7 @@ func TestDialBadOrigin(t *testing.T) {
 	s := newServer(t)
 	defer s.Close()
 
-	ws, resp, err := cstDialer.Dial(s.URL, http.Header{"Origin": {"bad"}})
+	ws, resp, err := cstDialer.Dial(s.URL, http.Header{"Origin": {"bad"}}, nil)
 	if err == nil {
 		ws.Close()
 		t.Fatalf("Dial: nil")
@@ -446,7 +446,7 @@ func TestDialBadHeader(t *testing.T) {
 		"Sec-Websocket-Protocol"} {
 		h := http.Header{}
 		h.Set(k, "bad")
-		ws, _, err := cstDialer.Dial(s.URL, http.Header{"Origin": {"bad"}})
+		ws, _, err := cstDialer.Dial(s.URL, http.Header{"Origin": {"bad"}}, nil)
 		if err == nil {
 			ws.Close()
 			t.Errorf("Dial with header %s returned nil", k)
@@ -492,7 +492,7 @@ func TestDialExtraTokensInRespHeaders(t *testing.T) {
 	}))
 	defer s.Close()
 
-	ws, _, err := cstDialer.Dial(makeWsProto(s.URL), nil)
+	ws, _, err := cstDialer.Dial(makeWsProto(s.URL), nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -503,7 +503,7 @@ func TestHandshake(t *testing.T) {
 	s := newServer(t)
 	defer s.Close()
 
-	ws, resp, err := cstDialer.Dial(s.URL, http.Header{"Origin": {s.URL}})
+	ws, resp, err := cstDialer.Dial(s.URL, http.Header{"Origin": {s.URL}}, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -535,7 +535,7 @@ func TestRespOnBadHandshake(t *testing.T) {
 	}))
 	defer s.Close()
 
-	ws, resp, err := cstDialer.Dial(makeWsProto(s.URL), nil)
+	ws, resp, err := cstDialer.Dial(makeWsProto(s.URL), nil, nil)
 	if err == nil {
 		ws.Close()
 		t.Fatalf("Dial: nil")
@@ -706,7 +706,7 @@ func TestHost(t *testing.T) {
 		if tt.header != "" {
 			h.Set("Host", tt.header)
 		}
-		c, resp, err := dialer.Dial(wsProtos[tt.server]+tt.url+"/", h)
+		c, resp, err := dialer.Dial(wsProtos[tt.server]+tt.url+"/", h, nil)
 		if err == nil {
 			c.Close()
 		}
@@ -756,7 +756,7 @@ func TestDialCompression(t *testing.T) {
 
 	dialer := cstDialer
 	dialer.EnableCompression = true
-	ws, _, err := dialer.Dial(s.URL, nil)
+	ws, _, err := dialer.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -835,7 +835,7 @@ func TestSocksProxyDial(t *testing.T) {
 	cstDialer := cstDialer // make local copy for modification on next line.
 	cstDialer.Proxy = http.ProxyURL(purl)
 
-	ws, _, err := cstDialer.Dial(s.URL, nil)
+	ws, _, err := cstDialer.Dial(s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -874,7 +874,7 @@ func TestTracingDialWithContext(t *testing.T) {
 	d := cstDialer
 	d.TLSClientConfig = &tls.Config{RootCAs: rootCAs(t, s.Server)}
 
-	ws, _, err := d.DialContext(ctx, s.URL, nil)
+	ws, _, err := d.DialContext(ctx, s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -913,7 +913,7 @@ func TestEmptyTracingDialWithContext(t *testing.T) {
 	d := cstDialer
 	d.TLSClientConfig = &tls.Config{RootCAs: rootCAs(t, s.Server)}
 
-	ws, _, err := d.DialContext(ctx, s.URL, nil)
+	ws, _, err := d.DialContext(ctx, s.URL, nil, nil)
 	if err != nil {
 		t.Fatalf("Dial: %v", err)
 	}
@@ -1090,7 +1090,7 @@ func TestNetDialConnect(t *testing.T) {
 		}
 
 		// Test websocket dial
-		c, _, err := dialer.Dial(testUrls[tc.server], nil)
+		c, _, err := dialer.Dial(testUrls[tc.server], nil, nil)
 		if err != nil {
 			t.Errorf("FAILED %s, err: %s", tc.name, err.Error())
 		} else {
@@ -1128,7 +1128,7 @@ func TestNextProtos(t *testing.T) {
 		t.Fatalf("Dialer.TLSClientConfig.NextProtos does not contain \"h2\"")
 	}
 
-	_, _, err = d.Dial(makeWsProto(ts.URL), nil)
+	_, _, err = d.Dial(makeWsProto(ts.URL), nil, nil)
 	if err == nil {
 		t.Fatalf("Dial succeeded, expect fail ")
 	}
