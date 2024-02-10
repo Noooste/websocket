@@ -11,7 +11,7 @@ import (
 	"fmt"
 	http "github.com/Noooste/fhttp"
 	"github.com/Noooste/fhttp/httptrace"
-	"github.com/Noooste/utls"
+	tls "github.com/Noooste/utls"
 	"io"
 	"io/ioutil"
 	"net"

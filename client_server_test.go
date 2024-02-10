@@ -16,7 +16,7 @@ import (
 	"github.com/Noooste/fhttp/cookiejar"
 	"github.com/Noooste/fhttp/httptest"
 	"github.com/Noooste/fhttp/httptrace"
-	"github.com/Noooste/utls"
+	tls "github.com/Noooste/utls"
 	"io"
 	"io/ioutil"
 	"log"
