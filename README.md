@@ -6,19 +6,15 @@
 Gorilla WebSocket is a [Go](http://golang.org/) implementation of the
 [WebSocket](http://www.rfc-editor.org/rfc/rfc6455.txt) protocol.
 
----
-
-**The Gorilla project has been archived, and is no longer under active maintainenance. You can read more here: https://github.com/gorilla#gorilla-toolkit**
-
----
 
 ### Documentation
 
-* [API Reference](https://pkg.go.dev/github.com/Noooste/websocket?tab=doc)
-* [Chat example](https://github.com/Noooste/websocket/tree/master/examples/chat)
-* [Command example](https://github.com/Noooste/websocket/tree/master/examples/command)
-* [Client and server example](https://github.com/Noooste/websocket/tree/master/examples/echo)
-* [File watch example](https://github.com/Noooste/websocket/tree/master/examples/filewatch)
+* [API Reference](https://pkg.go.dev/github.com/gorilla/websocket?tab=doc)
+* [Chat example](https://github.com/gorilla/websocket/tree/master/examples/chat)
+* [Command example](https://github.com/gorilla/websocket/tree/master/examples/command)
+* [Client and server example](https://github.com/gorilla/websocket/tree/master/examples/echo)
+* [File watch example](https://github.com/gorilla/websocket/tree/master/examples/filewatch)
+* [Write buffer pool example](https://github.com/gorilla/websocket/tree/master/examples/bufferpool)
 
 ### Status
 
