@@ -9,12 +9,11 @@ import (
 	"flag"
 	"io"
 	"log"
-	"net/http"
 	"os"
 	"os/exec"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 var (

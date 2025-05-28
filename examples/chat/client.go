@@ -7,10 +7,9 @@ package main
 import (
 	"bytes"
 	"log"
-	"net/http"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 const (

@@ -8,13 +8,12 @@ import (
 	"flag"
 	"html/template"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
 	"time"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 const (

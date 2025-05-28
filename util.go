@@ -8,8 +8,8 @@ import (
 	"crypto/rand"
 	"crypto/sha1" //#nosec G505 -- (CWE-327) https://datatracker.ietf.org/doc/html/rfc6455#page-54
 	"encoding/base64"
+	http "github.com/Noooste/fhttp"
 	"io"
-	"net/http"
 	"strings"
 	"unicode/utf8"
 )

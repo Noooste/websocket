@@ -7,15 +7,15 @@ package websocket
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
 	"errors"
 	"fmt"
+	"github.com/Noooste/utls"
 	"io"
 	"log"
 
+	"github.com/Noooste/fhttp"
+	"github.com/Noooste/fhttp/httptrace"
 	"net"
-	"net/http"
-	"net/http/httptrace"
 	"net/url"
 	"strings"
 	"time"
@@ -384,7 +384,7 @@ func (d *Dialer) DialContext(ctx context.Context, urlStr string, requestHeader h
 				if proto != "http/1.1" {
 					return nil, nil, fmt.Errorf(
 						"websocket: protocol %q was given but is not supported;"+
-							"sharing tls.Config with net/http Transport can cause this error: %w",
+							"sharing tls.Config with Noooste/fhttp Transport can cause this error: %w",
 						proto, err,
 					)
 				}

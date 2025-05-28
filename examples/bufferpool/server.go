@@ -6,12 +6,11 @@ package main
 import (
 	"flag"
 	"log"
-	"net/http"
 	"sync"
 
-	_ "net/http/pprof"
+	_ "github.com/Noooste/fhttp/pprof"
 
-	"github.com/gorilla/websocket"
+	"github.com/Noooste/websocket"
 )
 
 var addr = flag.String("addr", "localhost:8080", "http service address")

@@ -8,9 +8,9 @@ import (
 	"bufio"
 	"encoding/base64"
 	"errors"
+	"github.com/Noooste/fhttp"
 	"log"
 	"net"
-	"net/http"
 	"net/url"
 	"strings"
 

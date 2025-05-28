@@ -2,7 +2,7 @@ package websocket
 
 import (
 	"context"
-	"crypto/tls"
+	"github.com/Noooste/utls"
 )
 
 func doHandshake(ctx context.Context, tlsConn *tls.Conn, cfg *tls.Config) error {

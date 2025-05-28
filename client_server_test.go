@@ -7,19 +7,19 @@ package websocket
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/binary"
 	"errors"
 	"fmt"
+	http "github.com/Noooste/fhttp"
+	"github.com/Noooste/fhttp/cookiejar"
+	"github.com/Noooste/fhttp/httptest"
+	"github.com/Noooste/fhttp/httptrace"
+	"github.com/Noooste/utls"
 	"io"
 	"log"
 	"net"
-	"net/http"
-	"net/http/cookiejar"
-	"net/http/httptest"
-	"net/http/httptrace"
 	"net/url"
 	"reflect"
 	"strings"
@@ -577,7 +577,7 @@ func (w testLogWriter) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
-// TestHost tests handling of host names and confirms that it matches net/http.
+// TestHost tests handling of host names and confirms that it matches Noooste/fhttp.
 func TestHost(t *testing.T) {
 	t.Parallel()
 
@@ -604,7 +604,7 @@ func TestHost(t *testing.T) {
 	wsProtos := map[*httptest.Server]string{server: "ws://", tlsServer: "wss://"}
 	httpProtos := map[*httptest.Server]string{server: "http://", tlsServer: "https://"}
 
-	// Avoid log noise from net/http server by logging to testing.T
+	// Avoid log noise from Noooste/fhttp server by logging to testing.T
 	server.Config.ErrorLog = log.New(testLogWriter{t}, "", 0)
 	tlsServer.Config.ErrorLog = server.Config.ErrorLog
 
@@ -740,7 +740,7 @@ func TestHost(t *testing.T) {
 
 		check(wsProtos)
 
-		// Confirm that net/http has same result
+		// Confirm that Noooste/fhttp has same result
 
 		transport := &http.Transport{
 			Dial:            dialer.NetDial,
@@ -1141,7 +1141,7 @@ func TestNextProtos(t *testing.T) {
 	r.Body.Close()
 
 	// Asserts that Dialer.TLSClientConfig.NextProtos contains "h2"
-	// after the Client.Get call from net/http above.
+	// after the Client.Get call from Noooste/fhttp above.
 	var containsHTTP2 bool = false
 	for _, proto := range d.TLSClientConfig.NextProtos {
 		if proto == "h2" {
